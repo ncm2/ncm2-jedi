@@ -5,7 +5,7 @@ let s:loaded = 1
 
 let g:ncm2_jedi#python_version = get(g:,
             \ 'ncm2_jedi#python_version',
-            \ 2)
+            \ 3)
 
 if g:ncm2_jedi#python_version != 2
     let g:ncm2_jedi#proc = yarp#py3('ncm2_jedi')
@@ -19,6 +19,7 @@ let g:ncm2_jedi#source = get(g:, 'ncm2_jedi#source', {
             \ 'name': 'jedi',
             \ 'priority': 9,
             \ 'mark': 'py',
+            \ 'scope': ['python'],
             \ 'subscope_enable': 1,
             \ 'complete_pattern': [
             \       '^\s*(import|from).*\s',
