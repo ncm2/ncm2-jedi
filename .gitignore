@@ -1,0 +1,8 @@
+*.swp
+*.pyc
+__pycache__
+/node_modules
+/doc/tags
+/.envrc
+/test.vim
+/nvim.log*
