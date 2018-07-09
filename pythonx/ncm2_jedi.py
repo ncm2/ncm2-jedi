@@ -164,10 +164,8 @@ class Source(Ncm2Source):
             logger.debug('snippet: [%s] placeholders: %s', snippet, placeholders)
 
     def snippet_placeholder(self, num, txt=''):
-        # TODO: this version is so simple, but I haven't met those
-        # complicated use case
+        txt = txt.replace('\\', '\\\\')
         txt = txt.replace('$', r'\$')
-        txt = txt.replace('{', r'\{')
         txt = txt.replace('}', r'\}')
         if txt == '':
             return '${%s}' % num
