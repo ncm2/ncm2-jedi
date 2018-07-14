@@ -15,7 +15,7 @@ else
     let g:ncm2_jedi#proc = yarp#py('ncm2_jedi')
 endif
 
-let g:ncm2_jedi#source = get(g:, 'ncm2_jedi#source', {
+let g:ncm2_jedi#source = extend(get(g:, 'ncm2_jedi#source', {}), {
             \ 'name': 'jedi',
             \ 'priority': 9,
             \ 'mark': 'py',
@@ -28,11 +28,7 @@ let g:ncm2_jedi#source = get(g:, 'ncm2_jedi#source', {
             \       ',\s?'],
             \ 'on_complete': 'ncm2_jedi#on_complete',
             \ 'on_warmup': 'ncm2_jedi#on_warmup',
-            \ })
-
-let g:ncm2_jedi#source = extend(g:ncm2_jedi#source,
-            \ get(g:, 'ncm2_jedi#source_override', {}),
-            \ 'force')
+            \ }, 'keep')
 
 func! ncm2_jedi#init()
     call ncm2#register_source(g:ncm2_jedi#source)
