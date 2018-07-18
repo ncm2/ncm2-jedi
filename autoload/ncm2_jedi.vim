@@ -17,6 +17,7 @@ endif
 
 let g:ncm2_jedi#source = extend(get(g:, 'ncm2_jedi#source', {}), {
             \ 'name': 'jedi',
+            \ 'ready': 0,
             \ 'priority': 9,
             \ 'mark': 'py',
             \ 'scope': ['python'],
@@ -29,6 +30,8 @@ let g:ncm2_jedi#source = extend(get(g:, 'ncm2_jedi#source', {}), {
             \ 'on_complete': 'ncm2_jedi#on_complete',
             \ 'on_warmup': 'ncm2_jedi#on_warmup',
             \ }, 'keep')
+
+let g:ncm2_jedi#proc.on_load = {-> ncm2#set_ready(g:ncm2_jedi#source)}
 
 func! ncm2_jedi#init()
     call ncm2#register_source(g:ncm2_jedi#source)
