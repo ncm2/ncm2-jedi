@@ -31,7 +31,9 @@ let g:ncm2_jedi#source = extend(get(g:, 'ncm2_jedi#source', {}), {
             \ 'on_warmup': 'ncm2_jedi#on_warmup',
             \ }, 'keep')
 
-let g:ncm2_jedi#proc.on_load = {-> ncm2#set_ready(g:ncm2_jedi#source)}
+func! g:ncm2_jedi#proc.on_load()
+    let g:ncm2_jedi#source.ready = 1
+endfunc
 
 func! ncm2_jedi#init()
     call ncm2#register_source(g:ncm2_jedi#source)
