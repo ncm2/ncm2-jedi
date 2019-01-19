@@ -15,11 +15,13 @@ else
     let g:ncm2_jedi#proc = yarp#py('ncm2_jedi')
 endif
 
+let g:ncm2_jedi_mark = get(g:, 'ncm2_jedi#mark', 'py')
+
 let g:ncm2_jedi#source = extend(get(g:, 'ncm2_jedi#source', {}), {
             \ 'name': 'jedi',
             \ 'ready': 0,
             \ 'priority': 9,
-            \ 'mark': 'py',
+            \ 'mark': g:ncm2_jedi_mark,
             \ 'scope': ['python'],
             \ 'subscope_enable': 1,
             \ 'complete_pattern': [
