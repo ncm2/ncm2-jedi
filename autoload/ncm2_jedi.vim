@@ -7,6 +7,10 @@ let g:ncm2_jedi#python_version = get(g:,
             \ 'ncm2_jedi#python_version',
             \ 3)
 
+let g:ncm2_jedi#environment = get(g:,
+            \ 'ncm2_jedi#environment',
+            \ '')
+
 if g:ncm2_jedi#python_version != 2
     let g:ncm2_jedi#proc = yarp#py3('ncm2_jedi')
 else
@@ -44,6 +48,7 @@ func! ncm2_jedi#on_warmup(ctx)
 endfunc
 
 func! ncm2_jedi#on_complete(ctx)
-    call g:ncm2_jedi#proc.try_notify('on_complete', a:ctx, getline(1, '$'))
+    let env = get(b:, 'ncm2_jedi_environment', g:ncm2_jedi#environment)
+    call g:ncm2_jedi#proc.try_notify('on_complete', a:ctx, getline(1, '$'), env)
 endfunc
 

@@ -16,7 +16,18 @@ callsig_pat = re.compile(r'^\s*(?!from|import).*?[(,]\s*$')
 
 class Source(Ncm2Source):
 
-    def on_complete(self, ctx, lines):
+    def __init__(self, vim):
+        Ncm2Source.__init__(self, vim)
+        self._envs = {}
+
+    def get_env(self, env):
+        if not env:
+            return jedi.get_default_environment()
+        if env not in self._envs:
+            self._envs[env] = jedi.create_environment(env)
+        return self._envs[env]
+
+    def on_complete(self, ctx, lines, env):
         path = ctx['filepath']
         typed = ctx['typed']
         lnum = ctx['lnum']
@@ -37,7 +48,8 @@ class Source(Ncm2Source):
 
         logger.info('context [%s]', ctx)
 
-        script = jedi.Script(src, lnum, len(typed), path)
+        env = self.get_env(env)
+        script = jedi.Script(src, lnum, len(typed), path, environment=env)
 
         is_import = False
         if import_pat.search(typed):
