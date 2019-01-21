@@ -23,3 +23,10 @@ of your virtualenv.
 Read
 [jedi-environments](https://jedi.readthedocs.io/en/latest/docs/api.html#environments)
 for more information.
+
+### `g:ncm2_jedi#settings`
+
+Defaults to `{}`.
+
+Read [jedi-settings](https://jedi.readthedocs.io/en/latest/docs/settings.html)
+for more information.

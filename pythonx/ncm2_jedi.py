@@ -6,7 +6,7 @@ from ncm2 import Ncm2Source, getLogger
 import re
 import jedi
 import os
-
+from jedi import settings
 
 logger = getLogger(__name__)
 
@@ -18,16 +18,21 @@ class Source(Ncm2Source):
 
     def __init__(self, vim):
         Ncm2Source.__init__(self, vim)
-        self._envs = {}
 
-    def get_env(self, env):
+        env = vim.vars['ncm2_jedi#environment']
         if not env:
-            return jedi.get_default_environment()
-        if env not in self._envs:
-            self._envs[env] = jedi.create_environment(env)
-        return self._envs[env]
+            self._env = jedi.get_default_environment()
+        else:
+            self._env = jedi.create_environment(env)
 
-    def on_complete(self, ctx, lines, env):
+        rc_settings = vim.vars['ncm2_jedi#settings']
+        for name in rc_settings:
+            setattr(settings, name, rc_settings[name])
+
+    def get_env(self):
+        return self._env
+
+    def on_complete(self, ctx, lines):
         path = ctx['filepath']
         typed = ctx['typed']
         lnum = ctx['lnum']
@@ -48,7 +53,7 @@ class Source(Ncm2Source):
 
         logger.info('context [%s]', ctx)
 
-        env = self.get_env(env)
+        env = self.get_env()
         script = jedi.Script(src, lnum, len(typed), path, environment=env)
 
         is_import = False
@@ -89,17 +94,17 @@ class Source(Ncm2Source):
 
             insert = complete.complete
 
-            item = dict(word=ctx['base']+insert,
+            item = dict(word=ctx['base'] + insert,
                         icase=1,
                         dup=1,
                         menu=complete.description,
                         info=complete.docstring())
 
-            item = self.match_formalize(ctx, item)
-
             # Fix the user typed case
             if item['word'].lower() == complete.name.lower():
                 item['word'] = complete.name
+
+            item = self.match_formalize(ctx, item)
 
             # snippet support
             try:
