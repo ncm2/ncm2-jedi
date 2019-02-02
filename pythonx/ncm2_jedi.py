@@ -44,7 +44,9 @@ class Source(Ncm2Source):
         if typed.find('#') != -1:
             return
 
-        src = "\n".join(lines)
+        # replace f" or f' for " or ' respectively to avoid jedi fstrings bug
+        typed = re.sub(r"""f("|')""", "\1", typed)
+        src = "\n".join([re.sub(r"""f("|')""", "\1", line) for line in lines])
         src = self.get_src(src, ctx)
         if not src.strip():
             # empty src may possibly block jedi execution, don't know why
