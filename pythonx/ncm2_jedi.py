@@ -21,7 +21,7 @@ class Source(Ncm2Source):
 
         env = vim.vars['ncm2_jedi#environment']
         if not env:
-            self._env = jedi.get_default_environment()
+            self._env = jedi.create_environment(jedi._compatibility.which('python'))
         else:
             self._env = jedi.create_environment(env)
 
