@@ -6,6 +6,7 @@ from ncm2 import Ncm2Source, getLogger
 import re
 import jedi
 import os
+import sys
 from jedi import settings
 
 logger = getLogger(__name__)
@@ -20,7 +21,7 @@ class Source(Ncm2Source):
         Ncm2Source.__init__(self, vim)
 
         env = vim.vars['ncm2_jedi#environment']
-        mac = vim.command("echo has('mac')")
+        mac = sys.platform.lower() == 'darwin'
         py3 = str(vim.vars['ncm2_jedi#python_version']) == '3'
         py_version = 'python'
         if mac and py3:
