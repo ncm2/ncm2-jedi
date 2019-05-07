@@ -20,8 +20,11 @@ class Source(Ncm2Source):
         Ncm2Source.__init__(self, vim)
 
         env = vim.vars['ncm2_jedi#environment']
-        py2 = str(vim.vars['ncm2_jedi#python_version']) == '2'
-        py_version = 'python' if py2 else 'python3'
+        mac = vim.command("echo has('mac')")
+        py3 = str(vim.vars['ncm2_jedi#python_version']) == '3'
+        py_version = 'python'
+        if mac and py3:
+            py_version = 'python3'
 
         if not env:
             self._env = jedi.create_environment(jedi._compatibility.which(py_version))
