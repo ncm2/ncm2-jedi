@@ -21,7 +21,13 @@ class Source(Ncm2Source):
 
         env = vim.vars['ncm2_jedi#environment']
         if not env:
-            self._env = jedi.create_environment(jedi._compatibility.which('python'))
+            osenv = os.environ
+            if 'VIRTUAL_ENV' not in osenv and 'CONDA_PYTHON_EXE' in osenv:
+                # if conda is active
+                self._env = jedi.create_environment(osenv['CONDA_PYTHON_EXE'])
+            else:
+                # get_default_environment handles VIRTUAL_ENV
+                self._env = jedi.get_default_environment()
         else:
             self._env = jedi.create_environment(env)
 

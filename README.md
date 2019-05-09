@@ -17,12 +17,15 @@ specified by `:help g:python3_host_prog`.
 
 ### `g:ncm2_jedi#environment`
 
-When you have virtualenv, you could set this variable to the python executable
-of your virtualenv.
-
 Read
 [jedi-environments](https://jedi.readthedocs.io/en/latest/docs/api.html#environments)
 for more information.
+
+If this option is not set, ncm2-jedi uses the following priority scheme:
+
+- `$VIRTUAL_ENV` -> `jedi.get_default_environment`
+- `$CONDA_PYTHON_EXE`
+- `jedi.get_default_environment`
 
 ### `g:ncm2_jedi#settings`
 
