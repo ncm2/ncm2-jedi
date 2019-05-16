@@ -24,7 +24,7 @@ for more information.
 If this option is not set, ncm2-jedi uses the following priority scheme:
 
 - `$VIRTUAL_ENV` -> `jedi.get_default_environment`
-- `$CONDA_PYTHON_EXE`
+- `$CONDA_PREFIX`
 - `jedi.get_default_environment`
 
 ### `g:ncm2_jedi#settings`
