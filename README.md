@@ -1,6 +1,6 @@
 # ncm2-jedi
 
-Python completion for ncm2 via the greate
+Python completion for ncm2 via the great
 [jedi](https://github.com/davidhalter/jedi) library.
 
 ## Config
