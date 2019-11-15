@@ -99,12 +99,20 @@ class Source(Ncm2Source):
         for complete in completions:
 
             insert = complete.complete
+            # signature error seems to occur even in the 
+            # docstring function
+            try:
+                docstring = complete.docstring()
+            except AssertionError:
+                logger.error(
+                    'signature error in docstring-generation for {}'.format(complete))
+                docstring = ''
 
             item = dict(word=ctx['base'] + insert,
                         icase=1,
                         dup=1,
                         menu=complete.description,
-                        info=complete.docstring())
+                        info=docstring)
 
             # Fix the user typed case
             if item['word'].lower() == complete.name.lower():
@@ -129,7 +137,12 @@ class Source(Ncm2Source):
 
     def render_snippet(self, item, complete, is_import):
 
-        doc = complete.docstring()
+        try:
+            doc = complete.docstring()
+        except AssertionError:
+            logger.error(
+                'signature error in docstring-generation for {}'.format(complete))
+            doc = ''
 
         # This line has performance issue
         # https://github.com/roxma/nvim-completion-manager/issues/126
