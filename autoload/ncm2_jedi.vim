@@ -15,6 +15,10 @@ let g:ncm2_jedi#settings = get(g:,
             \ 'ncm2_jedi#settings',
             \ {})
 
+let g:ncm2_jedi#call_sig_hint = get(g:,
+            \ 'ncm2_jedi#call_sig_hint',
+            \ 1)
+
 if g:ncm2_jedi#python_version != 2
     let g:ncm2_jedi#proc = yarp#py3('ncm2_jedi')
 else

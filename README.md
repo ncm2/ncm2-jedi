@@ -33,3 +33,9 @@ Defaults to `{}`.
 
 Read [jedi-settings](https://jedi.readthedocs.io/en/latest/docs/settings.html)
 for more information.
+
+### `g:ncm2_jedi#call_sig_hint`
+
+Defaults to `1`
+
+Set it to 0 [to disable function argument hint](https://github.com/ncm2/ncm2/issues/190)

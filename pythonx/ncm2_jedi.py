@@ -35,6 +35,8 @@ class Source(Ncm2Source):
         for name in rc_settings:
             setattr(settings, name, rc_settings[name])
 
+        self._call_sig_hint = vim.vars['ncm2_jedi#call_sig_hint']
+
     def get_env(self):
         return self._env
 
@@ -67,6 +69,9 @@ class Source(Ncm2Source):
             is_import = True
 
         if callsig_pat.search(typed):
+
+            if not self._call_sig_hint:
+                return
 
             sig_text = ''
             sig = None
