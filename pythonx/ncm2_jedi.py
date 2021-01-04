@@ -46,6 +46,7 @@ class Source(Ncm2Source):
         lnum = ctx['lnum']
         startccol = ctx['startccol']
         ccol = ctx['ccol']
+        pos = lnum, len(typed)
 
         # jedi doesn't work on comment
         # https://github.com/roxma/nvim-completion-manager/issues/62
@@ -62,7 +63,7 @@ class Source(Ncm2Source):
         logger.info('context [%s]', ctx)
 
         env = self.get_env()
-        script = jedi.Script(src, lnum, len(typed), path, environment=env)
+        script = jedi.Script(src, path=path, environment=env)
 
         is_import = False
         if import_pat.search(typed):
@@ -76,7 +77,7 @@ class Source(Ncm2Source):
             sig_text = ''
             sig = None
             try:
-                signatures = script.call_signatures()
+                signatures = script.get_signatures(*pos)
                 logger.info('signatures: %s', signatures)
                 if len(signatures) > 0:
                     sig = signatures[-1]
@@ -96,7 +97,7 @@ class Source(Ncm2Source):
                 self.complete(ctx, ccol, matches, 1)
             return
 
-        completions = script.completions()
+        completions = script.complete(*pos)
         logger.info('completions %s', completions)
 
         matches = []
