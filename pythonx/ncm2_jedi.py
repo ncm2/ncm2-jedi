@@ -220,7 +220,7 @@ try:
     import psutil
     mem = psutil.virtual_memory()
     resource.setrlimit(resource.RLIMIT_DATA,
-                       (mem.total/3, resource.RLIM_INFINITY))
+                       (int(mem.total/3), resource.RLIM_INFINITY))
 except Exception as ex:
     logger.exception('set RLIMIT_DATA failed')
 
